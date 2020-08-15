@@ -1,0 +1,70 @@
+name: neteasecloud
+description: A new Flutter application.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  #路由
+  nav_router: ^0.0.5
+  #特殊列表滑动
+  azlistview: ^0.1.0
+  #吐司
+  bot_toast: ^3.0.0
+  #网络图片
+  cached_network_image: ^2.2.0+1
+  #状态管理
+  provider: ^4.1.3
+  #本地存储
+  shared_preferences: ^0.5.7+3
+  #选择器
+  flutter_picker: ^1.1.5
+  #摄像头
+  #camera: any
+  #视频播放
+  #video_player: any
+  #文件系统上位置的查询
+  #path_provider: ^1.6.11
+
+
+
+  cupertino_icons: ^0.1.3
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  #自动生存软件logo 图片为1024*1024
+  flutter_launcher_icons: ^0.7.3
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/musicLogo.jpg"
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/images/my_home_page/
+
+
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
