@@ -4,6 +4,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nav_router/nav_router.dart';
+import 'package:neteasecloud/util/tools.dart';
 
 import 'page/homepage.dart';
 
@@ -14,39 +15,108 @@ class StartClock extends StatefulWidget {
   _StartClockState createState() => _StartClockState();
 }
 
-class _StartClockState extends State<StartClock> {
+class _StartClockState extends State<StartClock> with SingleTickerProviderStateMixin {
   int times = 0;
-  int timesV=0;
+  int timesV = 0;
+  AnimationController _animationController;
+  SplashAnimManager _splashAnimManager;
+  List textNumber = [
+    ["生而", "为人"],
+    ["我很", "抱歉"],
+  ];
+
   @override
   void initState() {
     super.initState();
-    BotToast.showText(text: "3秒后自动进入播放界面");
-    Timer.periodic(Duration(seconds: 1), (v){
-      setState(() {});
-      print("object.........$v");
-      timesV++;
-      if(timesV>=3){
+    _animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 4000));
+    Future.delayed(Duration(milliseconds: 0)).then((value) {
+      _animationController.forward();
+      Future.delayed(Duration(milliseconds: 5000), () {
+        routePush(HomePage());
+      });
+    });
+    BotToast.showText(text: "5秒后自动进入播放界面",align: Alignment.topCenter,duration: Duration(seconds: 5));
+    Timer.periodic(Duration(seconds: 1), (v) {
+      setState(() => timesV++);
+      if (timesV >= 5) {
         v.cancel();
-        v=null;
+        v = null;
       }
     });
-    Timer.periodic(Duration(seconds: 3), (time) {
-      routePush(HomePage());
-      print("object.........$time");
-      times++;
-      if (times >= 1) {
-        time.cancel();//取消定时器，避免重复回调
-        time = null;
-      }
-    });
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: CustomPaint(painter: TestPainter())));
+    _splashAnimManager =
+        SplashAnimManager(_animationController, winWidth(context), (_getTextWidth("到点") - _getTextWidth("上号") - 4) / 2);
+    return Scaffold(
+      body: Container(
+        color: Colors.white54,
+        child: Stack(
+          alignment: AlignmentDirectional.center,
+          children: <Widget>[
+            CustomPaint(painter: TestPainter()),
+            Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: textNumber.map((item) {
+                  return Container(
+                    margin: EdgeInsets.symmetric(vertical: 50),
+                    height: 100,
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: <Widget>[
+                        animation(null, _splashAnimManager.animLeft.value, item[0],item[1].hashCode == 344964552?5: 0,
+                            item[0].hashCode == 377705094
+                                ? BoxDecoration(
+                                    color: Color.fromARGB(255, 253, 152, 39), borderRadius: BorderRadius.circular(20))
+                                : null),
+                        animation(_splashAnimManager.animRight.value, null, item[1],item[0].hashCode == 377705094?0: 5,
+                            item[1].hashCode == 344964552
+                                ? null
+                                : BoxDecoration(
+                                    color: Color.fromARGB(255, 253, 152, 39), borderRadius: BorderRadius.circular(20)))
+                      ],
+                    ),
+                  );
+                }).toList()),
+          ],
+        ),
+      ),
+    );
+  }
+
+  double _getTextWidth(String title) {
+    final textPainter = TextPainter(
+      text: TextSpan(text: title, style: TextStyle(fontSize: 60, fontWeight: FontWeight.w600, color: Colors.blue)),
+      textDirection: TextDirection.ltr,
+    );
+    textPainter.layout(minWidth: 0.0, maxWidth: double.infinity);
+    return textPainter.width;
+  }
+
+  Widget animation(double left, double right, String text, double padding, Decoration decoration) {
+    return AnimatedBuilder(
+      animation: _animationController,
+      builder: (context, child) {
+        return Positioned(
+            left: left,
+            right: right,
+            child: Container(
+                padding: EdgeInsets.symmetric(horizontal: padding),
+                decoration: decoration,
+                child: Text(text, style: TextStyle(fontSize: 60, color: Colors.blue))));
+      },
+    );
   }
 }
 
+//画笔
 class TestPainter extends CustomPainter {
   Paint _bigCirclePaint = Paint()
     ..color = Colors.cyan
@@ -114,4 +184,18 @@ class TestPainter extends CustomPainter {
   num degZRad(num v) {
     return v * (math.pi / 180);
   }
+}
+
+class SplashAnimManager {
+  final AnimationController controller;
+  final Animation<double> animLeft;
+  final Animation<double> animRight;
+  final double screenWidth;
+  final double offset;
+
+  SplashAnimManager(this.controller, this.screenWidth, this.offset)
+      : animLeft = Tween(begin: screenWidth, end: screenWidth / 2 - offset)
+            .animate(CurvedAnimation(parent: controller, curve: Curves.easeIn)),
+        animRight = Tween(begin: screenWidth, end: screenWidth / 2 + offset)
+            .animate(CurvedAnimation(parent: controller, curve: Curves.easeIn));
 }

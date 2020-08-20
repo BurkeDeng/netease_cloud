@@ -2,6 +2,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:nav_router/nav_router.dart';
 
+import 'page/homepage.dart';
 import 'start_clock.dart';
 
 void main() {
