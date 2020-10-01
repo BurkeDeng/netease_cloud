@@ -1,22 +1,21 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:nav_router/nav_router.dart';
-
-import 'page/homepage.dart';
 import 'start_clock.dart';
 
 void main() {
   runApp(MyApp());
+
   ///自定义错误页
   ErrorWidget.builder = (FlutterErrorDetails flutterDetails) {
-    print("flutterDetails::"+flutterDetails.toString());
+    print("flutterDetails::" + flutterDetails.toString());
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Image.asset("assets/images/flutter_error.gif",fit: BoxFit.cover),
-          Text("Flutter 走神了", style: TextStyle(color: Colors.green,fontSize: 18)),
+          Image.asset("assets/images/flutter_error.gif", fit: BoxFit.cover),
+          Text("Flutter 走神了", style: TextStyle(color: Colors.green, fontSize: 18)),
         ],
       ),
     );

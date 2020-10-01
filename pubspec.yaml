@@ -52,6 +52,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/my_home_page/
+    - assets/images/home_page_drawer/
 
 
   # fonts:

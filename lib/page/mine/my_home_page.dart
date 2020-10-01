@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nav_router/nav_router.dart';
 import 'package:neteasecloud/comment/oversctoll_behavior.dart';
 import 'package:neteasecloud/util/tools.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -49,12 +50,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   List musicRow = [
     {"image": "assets/images/my_home_page/livemusic.png", "centerText": "我喜欢的音乐", "buttonText": "心动模式"},
     {"image": "assets/images/my_home_page/music_station.png", "centerText": "私人FM", "buttonText": "超三亿人在听"},
-    {
-      "image": "assets/images/my_home_page/music_fire.png",
-      "centerText": "火前留名",
-      "buttonText": "寻找音乐伯乐",
-      "topText": "推荐"
-    },
+    {"image": "assets/images/my_home_page/music_fire.png", "centerText": "火前留名", "buttonText": "寻找音乐伯乐", "topText": "推荐"},
     {"image": "assets/images/my_home_page/ACG.png", "centerText": "ACG专区", "buttonText": "好玩好听ACG", "topText": "推荐"},
     {"image": "assets/images/my_home_page/piano.png", "centerText": "古典专区", "buttonText": "专业古典大全", "topText": "推荐"},
   ];
@@ -72,6 +68,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     lengthNumber = presLength.getInt("createListLength") ?? 0;
     return lengthNumber;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,37 +120,37 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               TabBar(
-                tabs: singingList,
-                controller: singingListController,
-                isScrollable: true,
-                indicator: BoxDecoration(),
-                labelColor: Colors.white,
-                labelStyle: TextStyle(fontSize: 16),
-                unselectedLabelColor: Colors.white.withOpacity(0.5),
-              ),
+                  tabs: singingList,
+                  controller: singingListController,
+                  isScrollable: true,
+                  indicator: BoxDecoration(),
+                  labelColor: Colors.white,
+                  labelStyle: TextStyle(fontSize: 16),
+                  unselectedLabelColor: Colors.white.withOpacity(0.5)),
               InkWell(
                   onTap: () {
-                    showModalBottomSheet(
-                      context: context,
-                      backgroundColor: Colors.teal.withOpacity(0.5),
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(35), topRight: Radius.circular(35))),
-                      builder: (BuildContext context) {
-                        return ScrollConfiguration(
-                          behavior: OverScrollBehavior(),
-                          child: ListView(
-                            children: <Widget>[
-                              Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                                  alignment: Alignment.topLeft,
-                                  child: Text("请选择", style: TextStyle(fontSize: 18))),
-                              Divider(height: 2, color: Colors.white),
-                            ],
-                          ),
-                        );
-                      },
-                    );
+                    routePush(SongListAssistantS());
+                    // showModalBottomSheet(
+                    //   context: context,
+                    //   backgroundColor: Colors.teal.withOpacity(0.5),
+                    //   elevation: 0,
+                    //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(35), topRight: Radius.circular(35))),
+                    //   builder: (BuildContext context) {
+                    //     return ScrollConfiguration(
+                    //       behavior: OverScrollBehavior(),
+                    //       child: ListView(
+                    //         children: <Widget>[
+                    //           Container(
+                    //             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                    //             alignment: Alignment.topLeft,
+                    //             child: Text("请选择", style: TextStyle(fontSize: 18)),
+                    //           ),
+                    //           Divider(height: 2, color: Colors.white),
+                    //         ],
+                    //       ),
+                    //     );
+                    //   },
+                    // );
                   },
                   child: Icon(Icons.more_vert, color: Colors.white.withOpacity(0.5))),
             ],
@@ -162,15 +159,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         lengthNumber != null || lengthNumber != 0
             ? Container(
                 height: lengthNumber == 0 ? 1000 : (lengthNumber + 1) * 75.toDouble(),
-                child: TabBarView(
-                  controller: singingListController,
-                  children: [
-                    CreateASongList(),
-                    CollectionList(),
-                    SongListAssistant(),
-                  ],
-                ),
-              )
+                child: TabBarView(controller: singingListController, children: [CreateASongList(), CollectionList(), SongListAssistant()]))
             : Container(),
       ],
     );
@@ -192,9 +181,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
                       image: DecorationImage(
-                          image: NetworkImage(
-                              "http://n.sinaimg.cn/ent/transform/511/w630h681/20200430/1aba-isyparf6100936.jpg"),
-                          fit: BoxFit.cover),
+                          image: NetworkImage("http://n.sinaimg.cn/ent/transform/511/w630h681/20200430/1aba-isyparf6100936.jpg"), fit: BoxFit.cover),
                     ),
                     child: Image.asset("assets/images/music_pause.png"),
                   ),
@@ -242,8 +229,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     image: index == 1
                         ? DecorationImage(
                             fit: BoxFit.cover,
-                            image: NetworkImage(
-                                "http://n.sinaimg.cn/ent/transform/511/w630h681/20200430/1aba-isyparf6100936.jpg"),
+                            image: NetworkImage("http://n.sinaimg.cn/ent/transform/511/w630h681/20200430/1aba-isyparf6100936.jpg"),
                           )
                         : null),
                 child: Stack(
@@ -252,11 +238,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     index == 0
                         ? ScaleTransition(
                             scale: animationController,
-                            child: Image.network(
-                                "http://n.sinaimg.cn/ent/transform/511/w630h681/20200430/1aba-isyparf6100936.jpg",
-                                fit: BoxFit.cover,
-                                width: _width,
-                                height: _width * 4 / 3))
+                            child: Image.network("http://n.sinaimg.cn/ent/transform/511/w630h681/20200430/1aba-isyparf6100936.jpg",
+                                fit: BoxFit.cover, width: _width, height: _width * 4 / 3))
                         : Container(),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -273,8 +256,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             ? UnconstrainedBox(
                                 child: Container(
                                   padding: EdgeInsets.symmetric(horizontal: 5),
-                                  decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.5), borderRadius: BorderRadius.circular(16)),
+                                  decoration: BoxDecoration(color: Colors.white.withOpacity(0.5), borderRadius: BorderRadius.circular(16)),
                                   child: Row(
                                     children: <Widget>[
                                       Icon(Icons.arrow_right, size: 20),
@@ -286,8 +268,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                   ),
                                 ),
                               )
-                            : Text(musicRow[index]["buttonText"],
-                                style: TextStyle(color: Colors.white.withOpacity(0.5))),
+                            : Text(musicRow[index]["buttonText"], style: TextStyle(color: Colors.white.withOpacity(0.5))),
                       ],
                     ),
                   ],
@@ -317,8 +298,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       ? Image.asset(functionLine[index]["icon"], fit: BoxFit.cover, width: 25, height: 25)
                       : CircleAvatar(
                           radius: 12.5,
-                          backgroundImage: NetworkImage(
-                              "http://n.sinaimg.cn/ent/transform/511/w630h681/20200430/1aba-isyparf6100936.jpg")),
+                          backgroundImage: NetworkImage("http://n.sinaimg.cn/ent/transform/511/w630h681/20200430/1aba-isyparf6100936.jpg")),
                   SizedBox(height: 2),
                   Text(functionLine[index]["text"], style: TextStyle(fontSize: 12)),
                 ],

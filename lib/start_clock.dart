@@ -16,8 +16,7 @@ class StartClock extends StatefulWidget {
 }
 
 class _StartClockState extends State<StartClock> with SingleTickerProviderStateMixin {
-  int times = 0;
-  int timesV = 0;
+  double timesV = 0;
   AnimationController _animationController;
   SplashAnimManager _splashAnimManager;
   List textNumber = [
@@ -35,7 +34,7 @@ class _StartClockState extends State<StartClock> with SingleTickerProviderStateM
         routePush(HomePage());
       });
     });
-    BotToast.showText(text: "5秒后自动进入播放界面",align: Alignment.topCenter,duration: Duration(seconds: 5));
+    BotToast.showText(text: "5秒后自动进入播放界面", align: Alignment.topCenter, duration: Duration(seconds: 5));
     Timer.periodic(Duration(seconds: 1), (v) {
       setState(() => timesV++);
       if (timesV >= 5) {
@@ -53,11 +52,13 @@ class _StartClockState extends State<StartClock> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    _splashAnimManager =
-        SplashAnimManager(_animationController, winWidth(context), (_getTextWidth("到点") - _getTextWidth("上号") - 4) / 2);
+    _splashAnimManager = SplashAnimManager(_animationController, winWidth(context), (_getTextWidth("到点") - _getTextWidth("上号") - 4) / 2);
     return Scaffold(
       body: Container(
-        color: Colors.white54,
+        decoration: BoxDecoration(
+          image: DecorationImage(image: AssetImage("assets/images/my_home_page/stackImage.jpg"), fit: BoxFit.fill),
+          color: Colors.white54,
+        ),
         child: Stack(
           alignment: AlignmentDirectional.center,
           children: <Widget>[
@@ -71,16 +72,22 @@ class _StartClockState extends State<StartClock> with SingleTickerProviderStateM
                     child: Stack(
                       fit: StackFit.expand,
                       children: <Widget>[
-                        animation(null, _splashAnimManager.animLeft.value, item[0],item[1].hashCode == 344964552?5: 0,
+                        animation(
+                            null,
+                            _splashAnimManager.animLeft.value,
+                            item[0],
+                            item[1].hashCode == 344964552 ? 5 : 0,
                             item[0].hashCode == 377705094
-                                ? BoxDecoration(
-                                    color: Color.fromARGB(255, 253, 152, 39), borderRadius: BorderRadius.circular(20))
+                                ? BoxDecoration(color: Color.fromARGB(255, 253, 152, 39), borderRadius: BorderRadius.circular(20))
                                 : null),
-                        animation(_splashAnimManager.animRight.value, null, item[1],item[0].hashCode == 377705094?0: 5,
+                        animation(
+                            _splashAnimManager.animRight.value,
+                            null,
+                            item[1],
+                            item[0].hashCode == 377705094 ? 0 : 5,
                             item[1].hashCode == 344964552
                                 ? null
-                                : BoxDecoration(
-                                    color: Color.fromARGB(255, 253, 152, 39), borderRadius: BorderRadius.circular(20)))
+                                : BoxDecoration(color: Color.fromARGB(255, 253, 152, 39), borderRadius: BorderRadius.circular(20)))
                       ],
                     ),
                   );
@@ -146,8 +153,7 @@ class TestPainter extends CustomPainter {
     for (int j = 0; j < 12; j++) {
       canvas.save();
       canvas.translate(0.0, -_radius + 30);
-      textPainter.text =
-          TextSpan(style: TextStyle(color: Colors.cyan, fontSize: 21), text: j == 0 ? '12' : j.toString());
+      textPainter.text = TextSpan(style: TextStyle(color: Colors.cyan, fontSize: 21), text: j == 0 ? '12' : j.toString());
       canvas.rotate(-degZRad(30) * j);
       textPainter.layout();
       textPainter.paint(canvas, Offset(-textPainter.width / 2, -textPainter.height / 2));
@@ -194,8 +200,6 @@ class SplashAnimManager {
   final double offset;
 
   SplashAnimManager(this.controller, this.screenWidth, this.offset)
-      : animLeft = Tween(begin: screenWidth, end: screenWidth / 2 - offset)
-            .animate(CurvedAnimation(parent: controller, curve: Curves.easeIn)),
-        animRight = Tween(begin: screenWidth, end: screenWidth / 2 + offset)
-            .animate(CurvedAnimation(parent: controller, curve: Curves.easeIn));
+      : animLeft = Tween(begin: screenWidth, end: screenWidth / 2 - offset).animate(CurvedAnimation(parent: controller, curve: Curves.easeIn)),
+        animRight = Tween(begin: screenWidth, end: screenWidth / 2 + offset).animate(CurvedAnimation(parent: controller, curve: Curves.easeIn));
 }
