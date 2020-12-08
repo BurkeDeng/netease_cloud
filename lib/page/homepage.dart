@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       child: Theme(
         data: Config.themeData,
         child: Scaffold(
-          drawer: Drawer(elevation: 0, child: HomePageDrawer()),
+          drawer: Drawer(elevation: 0, child: HomePageDrawer(), semanticLabel: "语义转换"),
           body: AppBackgroundImage(
             child: ScrollConfiguration(
               behavior: OverScrollBehavior(),

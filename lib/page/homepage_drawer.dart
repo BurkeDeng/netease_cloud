@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:neteasecloud/comment/app_backgound_image.dart';
+import 'package:neteasecloud/comment/oversctoll_behavior.dart';
 
 ///主页Drawer
 class HomePageDrawer extends StatefulWidget {
@@ -34,7 +34,8 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
       // 主题组件，可设置局部的主题样式
       data: Config.themeData, // 设置为配置的主题数据
       child: Scaffold(
-        body: AppBackgroundImage(
+        body: ScrollConfiguration(
+          behavior: OverScrollBehavior(),
           child: Padding(
             padding: const EdgeInsets.only(left: 12, right: 12, top: 10),
             child: ListView(
