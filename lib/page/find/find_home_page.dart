@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:neteasecloud/comment/cached_network_image.dart';
 
 ///发现主页
 class FindHomePage extends StatefulWidget {
@@ -17,9 +18,7 @@ class _FindHomePageState extends State<FindHomePage> with AutomaticKeepAliveClie
   void initState() {
     super.initState();
     getImageUrl().then((value) {
-      for (int i = 0; i < value.length; i++) {
-        bannerImages.add(value[i]["picUrl"]);
-      }
+      for (int i = 0; i < value.length; i++) bannerImages.add(value[i]["picUrl"]);
       setState(() {});
     });
   }
@@ -34,11 +33,10 @@ class _FindHomePageState extends State<FindHomePage> with AutomaticKeepAliveClie
         var getModel = response.data;
         var jsonModel = jsonDecode(getModel);
         return jsonModel["result"];
-      } else {
-        print("网络图片请求出错${response.statusCode}");
-      }
+      } else
+        print("状态码${response.statusCode}");
     } catch (e) {
-      print(">>>>>>>>>>>>>>>>>>$e");
+      print("请求出错$e");
       return e;
     }
   }
@@ -50,23 +48,25 @@ class _FindHomePageState extends State<FindHomePage> with AutomaticKeepAliveClie
       backgroundColor: Colors.transparent,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: ListView(
-          children: [
-            Container(
-              height: 150,
-              child: Swiper(
-                autoplay: true,
-                itemCount: bannerImages.length,
-                pagination: bannerImages.length > 0 ? SwiperPagination() : null, //分页指示器
-                viewportFraction: 0.8,
-                scale: 0.9,
-                itemBuilder: (BuildContext context, int index) {
-                  return Image.network(bannerImages[index], fit: BoxFit.fill);
-                },
-              ),
-            ),
-          ],
-        ),
+        child: ListView(children: [bannerImage()]),
+      ),
+    );
+  }
+
+  //轮播图
+  Widget bannerImage() {
+    return Container(
+      height: 150,
+      child: Swiper(
+        autoplay: true,
+        itemCount: bannerImages.length,
+        pagination: bannerImages.length > 0 ? SwiperPagination() : null,
+        //分页指示器
+        viewportFraction: 0.8,
+        scale: 0.9,
+        itemBuilder: (BuildContext context, int index) {
+          return CachedNetworkImages(image: bannerImages[index]);
+        },
       ),
     );
   }
