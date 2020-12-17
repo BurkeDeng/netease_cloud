@@ -57,7 +57,7 @@ class HttpUtil {
     try {
       response = await _dio.get(url, queryParameters: data, options: options, cancelToken: CancelToken());
     } on DioError catch (e) {
-      print("get erro---------$e");
+      print("get error---------$e");
     }
     return response;
   }
@@ -70,7 +70,7 @@ class HttpUtil {
     try {
       response = await _dio.post(url, data: plainData, queryParameters: data, options: options, cancelToken: CancelToken());
     } on DioError catch (e) {
-      print("post erro---------$e");
+      print("post error---------$e");
     }
     return response;
   }
@@ -83,7 +83,7 @@ class HttpUtil {
     try {
       response = await _dio.post(url, data: data, options: options, cancelToken: CancelToken());
     } on DioError catch (e) {
-      print("post erro---------$e");
+      print("post error---------$e");
     }
     return response;
   }

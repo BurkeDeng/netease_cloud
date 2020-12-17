@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 //去掉水波纹 ---ScrollConfiguration
-class OverScrollBehavior extends ScrollBehavior{
+class OverScrollBehavior extends ScrollBehavior {
   @override
   Widget buildViewportChrome(BuildContext context, Widget child, AxisDirection axisDirection) {
     switch (getPlatform(context)) {

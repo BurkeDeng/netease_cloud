@@ -33,6 +33,8 @@ dependencies:
   #video_player: any
   #文件系统上位置的查询
   #path_provider: ^1.6.11
+  #轮播图
+  flutter_swiper: ^1.1.6
 
 
 

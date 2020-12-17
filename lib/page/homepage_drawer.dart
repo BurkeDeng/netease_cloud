@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:neteasecloud/comment/oversctoll_behavior.dart';
+import 'package:neteasecloud/util/tools.dart';
 
 ///主页Drawer
 class HomePageDrawer extends StatefulWidget {
@@ -220,9 +221,4 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
       ),
     );
   }
-}
-
-class Config {
-  static bool dark = true; //是否为黑夜模式
-  static ThemeData themeData = ThemeData.dark(); //主题为暗色
 }
