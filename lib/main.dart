@@ -32,11 +32,13 @@ class MyApp extends StatelessWidget {
       navigatorObservers: [BotToastNavigatorObserver()],
       debugShowCheckedModeBanner: false,
       // theme: ThemeData(
-      //   scaffoldBackgroundColor: Colors.white,
-      //   cursorColor: Colors.white, //光标颜色
-      //   brightness: Brightness.dark,
-      //   accentColor: Colors.transparent, //主题次级色，决定大多数Widget的颜色，如进度条、开关等
-      // ),
+      //     // scaffoldBackgroundColor: Colors.black,
+      //     // cursorColor: Colors.white, //光标颜色
+      //     brightness: Brightness.dark,
+      //     accentColor: Colors.black, //主题次级色，决定大多数Widget的颜色，如进度条、开关等
+      //     primaryColor: Colors.black,
+      //     primaryColorDark: Colors.black,
+      //     primaryTextTheme: TextTheme(overline: TextStyle(backgroundColor: Colors.black))),
       home: StartClock(),
     );
   }
