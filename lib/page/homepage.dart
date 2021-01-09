@@ -2,6 +2,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:nav_router/nav_router.dart';
 import 'package:neteasecloud/comment/app_backgound_image.dart';
 import 'package:neteasecloud/comment/oversctoll_behavior.dart';
 import 'package:neteasecloud/page/find/find_home_page.dart';
@@ -10,6 +11,7 @@ import 'package:neteasecloud/page/video/video_home_page.dart';
 import 'package:neteasecloud/page/yuncun/yuncun_home_page.dart';
 import 'package:neteasecloud/util/tools.dart';
 import 'homepage_drawer.dart';
+import 'mine/rexent_rows/search_music.dart';
 
 ///导航栏
 class HomePage extends StatefulWidget {
@@ -23,6 +25,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   bool isNotPlaying = false;
   DateTime lastPopTime;
   String randomSinger, randomSongTitle, randomSongPictures, randomSongPath;
+
   @override
   void initState() {
     super.initState();
@@ -62,7 +65,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   tabBarModel(),
                   Container(
                     height: winHeight(context) - 44,
-                    child: TabBarView(controller: _tabController, children: [MyHomePage(), FindHomePage(), YunCunHomePage(), VideoHomePAge()]),
+                    child: TabBarView(
+                        controller: _tabController,
+                        children: [MyHomePage(), FindHomePage(), YunCunHomePage(), VideoHomePage()]),
                   ),
                 ],
               ),
@@ -84,14 +89,18 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(randomSongTitle == null ? "消愁" : randomSongTitle, style: TextStyle(fontSize: 15, color: Colors.white)),
-                    Text(randomSinger == null ? "毛不易" : randomSinger, style: TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 12)),
+                    Text(randomSongTitle == null ? "消愁" : randomSongTitle,
+                        style: TextStyle(fontSize: 15, color: Colors.white)),
+                    Text(randomSinger == null ? "毛不易" : randomSinger,
+                        style: TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 12)),
                   ],
                 ),
                 Spacer(),
                 InkWell(
                     onTap: () => setState(() => isNotPlaying = !isNotPlaying),
-                    child: isNotPlaying == false ? Image.asset("assets/images/music_pause.png") : Image.asset("assets/images/music_playing.png")),
+                    child: isNotPlaying == false
+                        ? Image.asset("assets/images/music_pause.png")
+                        : Image.asset("assets/images/music_playing.png")),
                 SizedBox(width: 15),
                 Image.asset("assets/images/music_list.png", fit: BoxFit.cover, width: 25, height: 25),
               ],
@@ -112,7 +121,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         children: <Widget>[
           Builder(
             builder: (BuildContext context) {
-              return GestureDetector(onTap: () => Scaffold.of(context).openDrawer(), child: Icon(Icons.menu, color: Colors.black, size: 28));
+              return GestureDetector(
+                  onTap: () => Scaffold.of(context).openDrawer(),
+                  child: Icon(Icons.menu, color: Colors.black, size: 28));
             },
           ),
           TabBar(
@@ -124,7 +135,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               labelStyle: TextStyle(fontSize: 20),
               unselectedLabelStyle: TextStyle(fontSize: 16)),
           GestureDetector(
-            onTap: () {},
+            onTap: () => routePush(SearchForMusic(randomSinger: randomSinger, randomSongTitle: randomSongTitle)),
             child: Icon(Icons.search, size: 28, color: Colors.black),
           ),
         ],
@@ -132,7 +143,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
   }
 
-  // ///请求随机播放的歌曲
+   //请求随机播放的歌曲
   Future<dynamic> getRandomPlay() async {
     Dio getRandomMusic = new Dio();
     try {
