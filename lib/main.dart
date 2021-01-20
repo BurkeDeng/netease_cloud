@@ -6,7 +6,7 @@ import 'start_clock.dart';
 void main() {
   runApp(MyApp());
 
-  ///自定义错误页
+  ///自定义错误页 试试水
   ErrorWidget.builder = (FlutterErrorDetails flutterDetails) {
     print("flutterDetails::" + flutterDetails.toString());
     return Scaffold(
